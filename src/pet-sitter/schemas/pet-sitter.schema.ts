@@ -1,5 +1,6 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Service } from '../../service/schemas/service.schema';
 
 class Address {
   @Prop()
@@ -29,8 +30,9 @@ class Address {
   @Prop()
   longitude: number;
 }
+
 @Schema({ timestamps: true })
-export class User extends Document {
+export class PetSitter extends Document {
   @Prop({ unique: true })
   email: string;
 
@@ -47,6 +49,9 @@ export class User extends Document {
   image: string;
 
   @Prop()
+  displayImage: [string];
+
+  @Prop()
   location: Address;
 
   @Prop()
@@ -57,6 +62,9 @@ export class User extends Document {
 
   @Prop({ default: false })
   isDeleted: boolean;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Service.name })
+  service: Service;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const PetSitterSchema = SchemaFactory.createForClass(PetSitter);
